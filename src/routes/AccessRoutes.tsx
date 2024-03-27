@@ -15,15 +15,15 @@ export const PublicRoute = () => {
 };
 
 export const PrivateRoute = () => {
-	const isLoggedIn = Cookies.get('myCredential');
+	// const isLoggedIn = Cookies.get('myCredential');
 
-	return isLoggedIn ? (
-		<Outlet />
-	) : (
-		<Navigate
-			to="/auth"
-			replace
-		/>
-	);
+	// return isLoggedIn ? (
+	// 	<Outlet />
+	// ) : (
+	// 	<Navigate
+	// 		to="/auth"
+	// 		replace
+	// 	/>
+	// );
 	return <Outlet />;
 };

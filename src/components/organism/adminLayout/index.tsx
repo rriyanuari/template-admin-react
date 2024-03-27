@@ -2,8 +2,6 @@ import { Suspense, useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 
 import {
-	Ghost,
-	GhostIcon,
 	Home,
 	Package,
 	Package2,
@@ -28,7 +26,7 @@ import {
 } from '@/components/ui/tooltip';
 
 const AdminLayout = () => {
-	const [isSmall, setIsSmall] = useState(true);
+	const [isSmall, setIsSmall] = useState(false);
 
 	const navigationRoutes: navigationRoutes[] = [
 		{
@@ -66,6 +64,10 @@ const AdminLayout = () => {
 		},
 	];
 
+	const toggleSmall = () => {
+		setIsSmall(!isSmall);
+	};
+
 	return (
 		<TooltipProvider>
 			<div className="flex min-h-screen w-full">
@@ -77,7 +79,7 @@ const AdminLayout = () => {
 					<div className="flex h-full max-h-screen flex-col gap-2">
 						<div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
 							<span
-								onClick={() => setIsSmall(!isSmall)}
+								onClick={toggleSmall}
 								className={`flex items-center ${
 									isSmall && 'justify-center'
 								} gap-2 font-semibold`}

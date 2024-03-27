@@ -5,6 +5,8 @@ const Dashboard = lazy(() => import('@/pages/dashboard'));
 const Products = lazy(() => import('@/pages/products'));
 const ProductForm = lazy(() => import('@/pages/products/productForm'));
 
+const CustomerPage = lazy(() => import('@/pages/customers/'));
+
 const Settings = lazy(() => import('@/pages/settings'));
 
 const coreRoutes = [
@@ -30,6 +32,16 @@ const coreRoutes = [
 				path: 'create',
 				title: 'Create Product',
 				component: ProductForm,
+			},
+		],
+	},
+	{
+		path: 'customers',
+		subRoutes: [
+			{
+				path: '',
+				title: 'Customers',
+				component: CustomerPage,
 			},
 		],
 	},
