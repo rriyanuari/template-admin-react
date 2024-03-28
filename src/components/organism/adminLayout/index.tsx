@@ -114,7 +114,7 @@ const AdminLayout = () => {
 															isSmall && 'justify-center'
 														} ${
 															isActive &&
-															'bg-primary text-secondary hover:text-secondary'
+															'bg-primary text-primary-foreground hover:text-primary-foreground'
 														}`}
 													>
 														{item.icon}
@@ -123,7 +123,7 @@ const AdminLayout = () => {
 															<Badge
 																className={`ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${
 																	isActive &&
-																	'bg-secondary text-primary hover:text-primary'
+																	'bg-primary-foreground text-primary hover:text-primary'
 																}`}
 															>
 																{item.badge}
@@ -160,7 +160,7 @@ const AdminLayout = () => {
 														isSmall && 'justify-center'
 													} ${
 														isActive &&
-														'bg-primary text-secondary hover:text-secondary'
+														'bg-primary text-primary-foreground hover:text-primary-foreground'
 													}`}
 												>
 													{item.icon}
@@ -169,7 +169,7 @@ const AdminLayout = () => {
 														<Badge
 															className={`ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${
 																isActive &&
-																'bg-secondary text-primary hover:text-primary'
+																'bg-primary-foreground text-primary hover:text-primary'
 															}`}
 														>
 															{item.badge}

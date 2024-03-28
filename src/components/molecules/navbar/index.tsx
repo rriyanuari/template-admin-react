@@ -22,7 +22,7 @@ export const Navbar = (props: {
 
 	return (
 		<header
-			className={`z-50 fixed w-full flex h-14 items-center gap-4 border-b bg-primary-foreground px-4 lg:h-[60px] lg:px-6 ${
+			className={`z-50 fixed w-full flex h-14 items-center gap-4 border-b bg-background px-4 lg:h-[60px] lg:px-6 ${
 				isSmall
 					? 'lg:w-[calc(100%-var(--sidebarwsm))]'
 					: 'lg:w-[calc(100%-var(--sidebarw))]'
