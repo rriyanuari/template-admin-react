@@ -1,6 +1,7 @@
 import { lazy, useEffect, useState } from "react";
 import { ThemeProvider } from "@/stores/theme-provider";
 import { Route, Routes } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 import routes from "./routes";
 import { renderRoute } from "./routes/RenderRoutes";
@@ -11,8 +12,11 @@ const Login = lazy(() => import("@/pages/authentication/login"));
 
 import { Loader } from "@/components/atoms/loader";
 import { Toaster } from "@/components/ui/toaster";
-import AdminLayout from "@/components/organism/adminLayout";
 import { SidebarProvider } from "./stores/sidebar-provider";
+import AdminLayout from "@/components/organism/adminLayout";
+
+// Create a client
+const queryClient = new QueryClient();
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -24,7 +28,7 @@ function App() {
   return loading ? (
     <Loader />
   ) : (
-    <>
+    <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
         <SidebarProvider>
           <Routes>
@@ -46,7 +50,7 @@ function App() {
           <Toaster />
         </SidebarProvider>
       </ThemeProvider>
-    </>
+    </QueryClientProvider>
   );
 }
 

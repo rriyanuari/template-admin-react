@@ -19,6 +19,8 @@ import {
   SettingsIcon,
   ShoppingCart,
   Users,
+  Users2,
+  Variable,
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
@@ -28,6 +30,18 @@ const navigationRoutes: navigationRoutes[] = [
     label: "Dashboard",
     link: "dashboard",
     icon: <Home className="h-6 w-6" />,
+    badge: 0,
+  },
+  {
+    label: "Users",
+    link: "users",
+    icon: <Users2 className="h-6 w-6" />,
+    badge: 0,
+  },
+  {
+    label: "Variables",
+    link: "variables",
+    icon: <Variable className="h-6 w-6" />,
     badge: 0,
   },
   {
