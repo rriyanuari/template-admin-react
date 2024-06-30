@@ -1,25 +1,15 @@
-import { Link } from "react-router-dom";
 import { Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { getEmployee } from "@/services";
-import { useQuery } from "react-query";
+import List from "./table";
+import DialogForm from "./dialog";
+import { Dialog } from "@/components/ui/dialog";
+import { useAtom, useSetAtom } from "jotai";
+import { employeeDialogIsShow, employeeSelected } from "@/stores/employee";
 
-const List = () => {
-  const { data, isError, isLoading } = useQuery({
-    queryKey: ["employees"],
-    queryFn: getEmployee,
-  });
-
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
-
-  if (isError) {
-    return <p>Error fetching data</p>;
-  }
-
-  console.log(data.data);
+const UserPage = () => {
+  const [isShowDialog, setIsShowDialog] = useAtom(employeeDialogIsShow);
+  const setSelectedEmployee = useSetAtom(employeeSelected);
 
   return (
     <main className="container flex flex-1 flex-col gap-4">
@@ -31,29 +21,25 @@ const List = () => {
           </p>
         </div>
         <div className="flex items-center space-x-2">
-          <Link to="create">
-            <Button className="gap-2">
-              <Plus className="w-6 h-6" />
-              Add new user
-            </Button>
-          </Link>
+          <Button
+            className="gap-2"
+            onClick={() => {
+              setIsShowDialog(true);
+              setSelectedEmployee(null);
+            }}
+          >
+            <Plus className="w-6 h-6" />
+            Add new employee
+          </Button>
         </div>
       </div>
-      <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
-        <div className="flex flex-col items-center gap-1 text-center">
-          <h3 className="text-2xl font-bold tracking-tight">
-            You have no users
-          </h3>
-          <Link to="create">
-            <Button className="mt-6 gap-2">
-              <Plus className="w-6 h-6" />
-              Add new user
-            </Button>
-          </Link>
-        </div>
-      </div>
+      <List />
+
+      <Dialog open={isShowDialog} onOpenChange={setIsShowDialog}>
+        <DialogForm />
+      </Dialog>
     </main>
   );
 };
 
-export default List;
+export default UserPage;

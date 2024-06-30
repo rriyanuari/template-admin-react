@@ -1,4 +1,4 @@
-interface navigationRoutes {
+export interface navigationRoutes {
   label: string;
   link: string;
   icon: JSX.Element;

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -7,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -16,9 +14,21 @@ import {
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
 import { PasswordInput } from "@/components/atoms/passwordInput";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
-import { getImageData } from "@/utils/image";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { postEmployee, putEmployee } from "@/services";
+import { useAtomValue, useSetAtom } from "jotai";
+import { employeeDialogIsShow, employeeSelected } from "@/stores/employee";
+import { useEffect, useState } from "react";
+import { Loader2 } from "lucide-react";
 
 // Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character
 const passwordValidation = new RegExp(
@@ -47,112 +57,163 @@ const userFormSchema = z.object({
       message:
         "Password at least one uppercase letter, one lowercase letter, one number and one special character",
     }),
+  role: z.string(),
+  active: z.boolean().optional(),
 });
 
 type UserFormValues = z.infer<typeof userFormSchema>;
 
 const General = () => {
-  const [preview, setPreview] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const selectedEmployee = useAtomValue(employeeSelected);
+  const setIsShowDialog = useSetAtom(employeeDialogIsShow);
 
   const form = useForm<UserFormValues>({
     resolver: zodResolver(userFormSchema),
     mode: "onSubmit",
   });
 
-  function onSubmit(data: UserFormValues) {
-    console.log(data);
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+  async function onSubmit(data: UserFormValues) {
+    try {
+      setIsLoading(true);
+
+      let response;
+      if (selectedEmployee) {
+        response = await putEmployee(selectedEmployee.uid, data);
+      } else {
+        response = await postEmployee(data);
+      }
+
+      toast({
+        title: response.message,
+      });
+      setIsShowDialog(false);
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: "error:",
+        description: (
+          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+            <code className="text-white">{JSON.stringify(error, null, 2)}</code>
+          </pre>
+        ),
+      });
+    } finally {
+      setIsLoading(false);
+    }
   }
+
+  useEffect(() => {
+    if (selectedEmployee) {
+      form.reset(selectedEmployee);
+    }
+  }, [selectedEmployee]);
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <Avatar className="w-24 h-24">
-          <AvatarImage src={preview} />
-          <AvatarFallback>BU</AvatarFallback>
-        </Avatar>
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field: { onChange, value, ...rest } }) => (
-            <>
-              <FormItem>
-                <FormLabel>Circle Image</FormLabel>
+        <div className="grid grid-cols-2 gap-4 py-4">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem className="col-span-2">
+                <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input
-                    type="file"
-                    {...rest}
-                    onChange={(event) => {
-                      const { files, displayUrl } = getImageData(event);
-                      setPreview(displayUrl);
-                      onChange(files);
-                    }}
-                  />
+                  <Input placeholder="Jhon Doe" {...field} />
                 </FormControl>
-                <FormDescription>
-                  Choose best image that bring spirits to your circle.
-                </FormDescription>
                 <FormMessage />
               </FormItem>
-            </>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Jhon Doe" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is user's name. It can be full name or a nick name.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="example@mail.com" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is email's user, use for sign in to app.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <PasswordInput {...field} />
-              </FormControl>
-              <FormDescription>
-                Create strength password, to make account secure.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Create User</Button>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input placeholder="example@mail.com" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <PasswordInput {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div className="col-span-2">
+            <FormField
+              control={form.control}
+              name="role"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Role</FormLabel>
+                  <FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      value={field.value}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a role" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectItem value="USER">USER</SelectItem>
+                          <SelectItem value="ADMIN">ADMIN</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <FormField
+            control={form.control}
+            name="active"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel></FormLabel>
+                <FormControl>
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      id="block"
+                    />
+                    <Label htmlFor="block">Block</Label>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="w-full text-right">
+          <Button type="submit" className="w-64" disabled={isLoading}>
+            {isLoading ? (
+              <div className="flex gap-4">
+                <Loader2 className="animate-spin" /> Process
+              </div>
+            ) : (
+              <>Save</>
+            )}
+          </Button>
+        </div>
       </form>
     </Form>
   );

@@ -3,81 +3,115 @@
 @tailwind utilities;
 
 @layer base {
-	:root {
-		--background: 0 0% 100%;
-		--foreground: 224 71.4% 4.1%;
-		--card: 0 0% 100%;
-		--card-foreground: 224 71.4% 4.1%;
-		--popover: 0 0% 100%;
-		--popover-foreground: 224 71.4% 4.1%;
-		--primary: 220.9 39.3% 11%;
-		--primary-foreground: 210 20% 98%;
-		--secondary: 220 14.3% 95.9%;
-		--secondary-foreground: 220.9 39.3% 11%;
-		--muted: 220 14.3% 95.9%;
-		--muted-foreground: 220 8.9% 46.1%;
-		--accent: 220 14.3% 95.9%;
-		--accent-foreground: 220.9 39.3% 11%;
-		--destructive: 0 84.2% 60.2%;
-		--destructive-foreground: 210 20% 98%;
-		--border: 220 13% 91%;
-		--input: 220 13% 91%;
-		--ring: 224 71.4% 4.1%;
-		--radius: 0.3rem;
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 224 71.4% 4.1%;
+    --card: 0 0% 100%;
+    --card-foreground: 224 71.4% 4.1%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 71.4% 4.1%;
+    --primary: 220.9 39.3% 11%;
+    --primary-foreground: 210 20% 98%;
+    --secondary: 220 14.3% 95.9%;
+    --secondary-foreground: 220.9 39.3% 11%;
+    --muted: 220 14.3% 95.9%;
+    --muted-foreground: 220 8.9% 46.1%;
+    --accent: 220 14.3% 95.9%;
+    --accent-foreground: 220.9 39.3% 11%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 224 71.4% 4.1%;
+    --radius: 0.3rem;
 
-		--sidebarw: 230px;
-		--sidebarwsm: 80px;
-	}
+    --sidebarw: 230px;
+    --sidebarwsm: 80px;
+  }
 
-	.dark {
-		--background: 224 71.4% 4.1%;
-		--foreground: 210 20% 98%;
-		--card: 224 71.4% 4.1%;
-		--card-foreground: 210 20% 98%;
-		--popover: 224 71.4% 4.1%;
-		--popover-foreground: 210 20% 98%;
-		--primary: 210 20% 98%;
-		--primary-foreground: 220.9 39.3% 11%;
-		--secondary: 215 27.9% 16.9%;
-		--secondary-foreground: 210 20% 98%;
-		--muted: 215 27.9% 16.9%;
-		--muted-foreground: 217.9 10.6% 64.9%;
-		--accent: 215 27.9% 16.9%;
-		--accent-foreground: 210 20% 98%;
-		--destructive: 0 62.8% 30.6%;
-		--destructive-foreground: 210 20% 98%;
-		--border: 215 27.9% 16.9%;
-		--input: 215 27.9% 16.9%;
-		--ring: 216 12.2% 83.9%;
-	}
+  .dark {
+    --background: 224 71.4% 4.1%;
+    --foreground: 210 20% 98%;
+    --card: 224 71.4% 4.1%;
+    --card-foreground: 210 20% 98%;
+    --popover: 224 71.4% 4.1%;
+    --popover-foreground: 210 20% 98%;
+    --primary: 210 20% 98%;
+    --primary-foreground: 220.9 39.3% 11%;
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 210 20% 98%;
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+    --accent: 215 27.9% 16.9%;
+    --accent-foreground: 210 20% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 216 12.2% 83.9%;
+  }
 }
 
 @layer base {
-	* {
-		@apply border-border;
-	}
-	body {
-		@apply bg-background text-foreground;
-	}
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }
 
 /* HTML: <div class="loader"></div> */
 .loader {
-	height: 6px;
-	width: 300px;
-	--c: no-repeat linear-gradient(#32302e 0 0);
-	background: var(--c), var(--c), #726e6a;
-	background-size: 60% 100%;
-	animation: l16 3s infinite;
+  height: 6px;
+  width: 300px;
+  --c: no-repeat linear-gradient(#32302e 0 0);
+  background: var(--c), var(--c), #726e6a;
+  background-size: 60% 100%;
+  animation: l16 3s infinite;
 }
 @keyframes l16 {
-	0% {
-		background-position: -150% 0, -150% 0;
-	}
-	66% {
-		background-position: 250% 0, -150% 0;
-	}
-	100% {
-		background-position: 250% 0, 250% 0;
-	}
+  0% {
+    background-position: -150% 0, -150% 0;
+  }
+  66% {
+    background-position: 250% 0, -150% 0;
+  }
+  100% {
+    background-position: 250% 0, 250% 0;
+  }
+}
+
+/* styles.css */
+.my-custom-table .kBvXce {
+  background-color: transparent !important;
+}
+
+.my-custom-table .rdt_Table {
+  background-color: transparent;
+  color: var(--primary) !important;
+}
+
+.my-custom-table .rdt_TableRow {
+  background-color: transparent;
+  color: var(--primary) !important;
+}
+
+.my-custom-table .rdt_TableHeadRow {
+  background-color: transparent;
+  @apply text-primary dark:text-white;
+}
+
+.rdt_Pagination {
+  background-color: transparent !important;
+  color: var(--primary) !important;
+}
+
+.my-custom-table .rdt_TableCell {
+  color: var(--primary);
+}
+
+.my-custom-table .rdt_TableCol {
+  background-color: transparent;
+  color: var(--primary);
 }
