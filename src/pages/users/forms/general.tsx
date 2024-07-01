@@ -48,15 +48,14 @@ const userFormSchema = z.object({
     .string()
     .min(1, { message: "Email is required." })
     .email("Please input a valid email."),
-  password: z
-    .string()
-    .min(6, {
-      message: "Password must be at least 6 characters.",
-    })
-    .regex(passwordValidation, {
-      message:
-        "Password at least one uppercase letter, one lowercase letter, one number and one special character",
-    }),
+  password: z.string().optional(),
+  // .min(6, {
+  //   message: "Password must be at least 6 characters.",
+  // })
+  // .regex(passwordValidation, {
+  //   message:
+  //     "Password at least one uppercase letter, one lowercase letter, one number and one special character",
+  // }),
   role: z.string(),
   active: z.boolean().optional(),
 });
@@ -112,7 +111,7 @@ const General = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <div className="grid grid-cols-2 gap-4 py-4">
+        <div className="flex flex-col md:grid grid-cols-2 gap-4 py-4">
           <FormField
             control={form.control}
             name="name"

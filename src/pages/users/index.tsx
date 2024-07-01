@@ -12,12 +12,12 @@ const UserPage = () => {
   const setSelectedEmployee = useSetAtom(employeeSelected);
 
   return (
-    <main className="container flex flex-1 flex-col gap-4">
-      <div className="flex items-center justify-between space-y-2">
+    <section className="container p-4 flex flex-1 flex-col gap-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between space-y-2">
         <div>
-          <h2 className="text-3xl font-semibold tracking-tight">Users</h2>
+          <h2 className="text-3xl font-semibold tracking-tight">Employees</h2>
           <p className="text-muted-foreground">
-            Here&apos;s a list of your users @ this app
+            Here&apos;s a list of your employee @ this app
           </p>
         </div>
         <div className="flex items-center space-x-2">
@@ -38,7 +38,7 @@ const UserPage = () => {
       <Dialog open={isShowDialog} onOpenChange={setIsShowDialog}>
         <DialogForm />
       </Dialog>
-    </main>
+    </section>
   );
 };
 

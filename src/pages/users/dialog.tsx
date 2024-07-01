@@ -11,7 +11,7 @@ function UserDialogForm() {
   return (
     <DialogContent className="sm:max-w-[600px] ">
       <DialogHeader>
-        <DialogTitle>Create profile</DialogTitle>
+        <DialogTitle>Create Employee</DialogTitle>
         <DialogDescription>
           Create new employee. Click save when you're done.
         </DialogDescription>

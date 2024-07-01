@@ -6,47 +6,78 @@ import {
   employeeAtom,
   employeeDialogIsShow,
   employeeSelected,
+  paramsAtom,
 } from "@/stores/employee";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Pencil, Plus } from "lucide-react";
+import { Pencil, Plus, Shield, User } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { SkeletonTable } from "@/components/atoms/loader";
+import { useEffect } from "react";
 
 const UserList = () => {
-  const [{ data, isPending }] = useAtom(employeeAtom);
+  const [{ data, isPending, refetch }] = useAtom(employeeAtom);
 
-  const setIsShowDialog = useSetAtom(employeeDialogIsShow);
+  const [isShowDialog, setIsShowDialog] = useAtom(employeeDialogIsShow);
   const setSelectedEmployee = useSetAtom(employeeSelected);
+  const [params, setParams] = useAtom(paramsAtom);
+
+  function updateParams(newParams: any) {
+    setParams((prevParams) => ({ ...prevParams, ...newParams }));
+    console.log(params, newParams);
+  }
+
+  useEffect(() => {
+    if (!isShowDialog) {
+      refetch();
+    }
+  }, [isShowDialog]);
 
   const columns: TableColumn<Tuser>[] = [
     {
       name: "Name",
+      sortField: "name",
       sortable: true,
+      minWidth: "200px",
+      grow: 1,
       cell: (row) => row.name,
     },
     {
       name: "Email",
+      sortField: "email",
       sortable: true,
+      minWidth: "200px",
+      grow: 1,
       cell: (row) => row.email,
     },
     {
       name: "Role",
+      sortField: "role",
       sortable: true,
-      cell: (row) => row.role,
+      minWidth: "150px",
+      grow: 0,
+      cell: (row) => (
+        <Badge className="flex gap-2" variant={"outline"}>
+          {row.role == "ADMIN" ? <Shield width={16} /> : <User width={16} />}
+          {row.role}
+        </Badge>
+      ),
     },
     {
       name: "Status",
+      sortField: "active",
       sortable: true,
+      grow: 0,
       cell: (row) => (
-        <Badge variant={row.active ? "default" : "destructive"}>
-          {row.active ? "active" : "blocked"}
+        <Badge variant={row.active ? "destructive" : "default"}>
+          {row.active ? "blocked" : "active"}
         </Badge>
       ),
     },
     {
       name: "",
       button: true,
+      grow: 0,
       cell: (row) => (
         <button
           type="button"
@@ -73,6 +104,10 @@ const UserList = () => {
             pagination
             paginationServer
             paginationTotalRows={data.totalItems}
+            onChangePage={(page) => updateParams({ page: page - 1 })}
+            onSort={(col, order) => {
+              updateParams({ sortField: col.sortField, sortOrder: order });
+            }}
             className="my-custom-table"
           />
         </div>
